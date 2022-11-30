@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Task queues</title>
+</head>
+
+<body>
+  <button onclick="handleAction()">CLICK AND SEE GREY BACKGROUND WHENEVER INTERACTION POSSIBLE</button>
+
+  <script>
+    let dateMs = Date.now()
+    const delayMs = 2000
+    const callbackRunCount = 4
+
+    /* let either function run, with the other commented out */
+
+    // runMicrotasks()
+    runMacrotasks()
+
+    /* end of function calls */
+
+    function runMicrotasks() {
+      console.log(`1. ${callbackRunCount} promises are resolved synchronously and callbacks are added to microtask queue`)
+      console.log(`2. ${callbackRunCount} promise callbacks run one after another asynchronously`)
+      console.log('3. viewport is not repainted and no user interaction takes place before all microtasks have completed')
+
+      for (let i = 0; i < callbackRunCount; i++) {
+        Promise.resolve().then(() => {
+          console.log({ i })
+          wait(2000)
+          display(i)
+        })
+      }
+    }
+
+    function runMacrotasks() {
+      console.log(`1. setTimeout adds ${callbackRunCount} callbacks to macrotask queue after a few miliseconds`)
+      console.log(`2. ${callbackRunCount} callbacks run one after another asynchronously`)
+      console.log('3. press button to observe that viewport is repainted and user interaction is possible after each macrotasks has completed')
+
+      for (let i = 0; i < callbackRunCount; i++) {
+        setTimeout(() => {
+          console.log({ i })
+          wait(2000)
+          display(i)
+        })
+      }
+    }
+
+    function handleAction() {
+      document.body.style.backgroundColor = 'grey'
+    }
+
+    function display(index) {
+      const colors = [
+        'yellow',
+        'red',
+        'green',
+        'blue',
+      ]
+
+      document.body.style.backgroundColor = colors[index]
+      console.log(index, colors[index])
+    }
+
+    function wait(durationMs) {
+      while (dateMs + delayMs > Date.now()) { /* wait */ }
+      dateMs = Date.now()
+    }
+  </script>
+</body>
+
+</html>
