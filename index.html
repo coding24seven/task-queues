@@ -9,8 +9,6 @@
   <button onclick="handleAction()">CLICK AND SEE GREY BACKGROUND WHENEVER INTERACTION POSSIBLE</button>
 
   <script>
-    let dateMs = Date.now()
-    const delayMs = 2000
     const colors = [
       'yellow',
       'red',
@@ -72,8 +70,8 @@
     }
 
     function wait(durationMs) {
-      while (dateMs + delayMs > Date.now()) { /* wait */ }
-      dateMs = Date.now()
+      const dateMs = Date.now()
+      while (dateMs + durationMs > Date.now()) { /* wait */ }
     }
   </script>
 </body>
