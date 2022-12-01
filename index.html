@@ -11,14 +11,28 @@
   <script>
     let dateMs = Date.now()
     const delayMs = 2000
-    const callbackRunCount = 4
+    const colors = [
+      'yellow',
+      'red',
+      'green',
+      'blue',
+    ]
+    const callbackRunCount = colors.length
 
     /* let either function run, with the other commented out */
 
     // runMicrotasks()
-    runMacrotasks()
+    // runMacrotasks()
 
     /* end of function calls */
+
+    /* keep clicking on page */
+    let counter = 0
+    window.addEventListener('click', () => {
+      wait(2000)
+      display(counter)
+      if (++counter === colors.length) { counter = 0 }
+    })
 
     function runMicrotasks() {
       console.log(`1. ${callbackRunCount} promises are resolved synchronously and callbacks are added to microtask queue`)
@@ -53,13 +67,6 @@
     }
 
     function display(index) {
-      const colors = [
-        'yellow',
-        'red',
-        'green',
-        'blue',
-      ]
-
       document.body.style.backgroundColor = colors[index]
       console.log(index, colors[index])
     }
